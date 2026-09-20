@@ -9,6 +9,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import root_mean_squared_error 
+from sklearn.model_selection import cross_val_score
 
 
 # Load the data
@@ -69,18 +70,19 @@ print(housing_prepared.shape)
 lin_reg = LinearRegression()
 lin_reg.fit(housing_prepared, housing_labels)
 lin_preds = lin_reg.predict(housing_prepared)
-lin_rmse = root_mean_squared_error(housing_labels, lin_preds) 
+lin_rmse=-cross_val_score(lin_reg, housing_prepared, housing_labels,scoring="neg_root_mean_squared_error",cv=10).mean()
 print("Linear Regression RMSE:", lin_rmse)
 # Decision Tree
 tree_reg = DecisionTreeRegressor(random_state=42)
 tree_reg.fit(housing_prepared, housing_labels)
 tree_preds = tree_reg.predict(housing_prepared)
-tree_rmse = root_mean_squared_error(housing_labels, tree_preds)
+#tree_rmse = root_mean_squared_error(housing_labels, tree_preds)
+tree_rmse=-cross_val_score(tree_reg, housing_prepared, housing_labels,scoring="neg_root_mean_squared_error",cv=10).mean()
 print("Decision Tree RMSE:", tree_rmse)
 
 # Random Forest
 forest_reg = RandomForestRegressor(random_state=42)
 forest_reg.fit(housing_prepared, housing_labels)
 forest_preds = forest_reg.predict(housing_prepared)
-forest_rmse = root_mean_squared_error(housing_labels, forest_preds)
+forest_rmse=-cross_val_score(forest_reg, housing_prepared, housing_labels,scoring="neg_root_mean_squared_error",cv=10).mean()
 print("Random Forest RMSE:", forest_rmse)
