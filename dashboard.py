@@ -4,7 +4,7 @@ import numpy as np
 import plotly.express as px
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-st.set_page_config(page_title="Housing Price Prediction Dashboard", layout="wide")
+st.set_page_config(page_title="California Housing Price Prediction Dashboard", layout="wide")
 
 # ---------- Load data ----------
 @st.cache_data

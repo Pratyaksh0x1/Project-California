@@ -21,6 +21,8 @@ streamlit run dashboard.py   # view the dashboard
 
 ## Results
 
+![alt text]({47673698-8653-46C5-BD40-E23FB545395B}.png)
+
 - MAE: ~$30,900
 - RMSE: ~$47,200
 - R²: 0.83
