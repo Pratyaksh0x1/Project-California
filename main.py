@@ -9,6 +9,9 @@ from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+import json
+
 
 MODEL_FILE = "model.pkl"
 PIPELINE_FILE = "pipeline.pkl"
@@ -63,9 +66,23 @@ else:
     pipeline = joblib.load(PIPELINE_FILE)
 
     input_data = pd.read_csv("input.csv")
-    transformed_input = pipeline.transform(input_data)
+
+    # Save true label separately 
+    y_actual = input_data["median_house_value"].copy()
+    input_features = input_data.drop("median_house_value", axis=1)
+
+    transformed_input = pipeline.transform(input_features)
     predictions = model.predict(transformed_input)
-    input_data["median_house_value"] = predictions
+
+    input_data["predicted_house_value"] = predictions
+    input_data["abs_error"] = (y_actual - predictions).abs()
+    input_data["pct_error"] = (input_data["abs_error"] / y_actual) * 100
 
     input_data.to_csv("output.csv", index=False)
     print("Inference complete. Results saved to output.csv")
+
+
+    mae = mean_absolute_error(y_actual, predictions)
+    rmse = np.sqrt(mean_squared_error(y_actual, predictions))
+    r2 = r2_score(y_actual, predictions)
+    print(f"MAE: {mae:.2f} | RMSE: {rmse:.2f} | R2: {r2:.4f}")
