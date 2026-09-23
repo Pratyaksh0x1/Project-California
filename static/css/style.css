@@ -1,0 +1,1054 @@
+/* ==========================================================================
+   CALIFORNIA HOUSING PREDICTOR // COMIC BLACK & WHITE THEME
+   Strict Monochrome / Halftone Screentone / Bold Comic Panels
+   ========================================================================== */
+
+:root {
+    --ink-black: #000000;
+    --paper-white: #ffffff;
+    --halftone-gray: #e0e0e0;
+    --screen-gray: #757575;
+    --light-gray: #f7f7f7;
+    --border-thick: 3px solid var(--ink-black);
+    --border-medium: 2px solid var(--ink-black);
+    --shadow-hard: 5px 5px 0px var(--ink-black);
+    --shadow-soft: 3px 3px 0px var(--ink-black);
+    --shadow-huge: 8px 8px 0px var(--ink-black);
+    --font-comic: 'Bangers', cursive, sans-serif;
+    --font-heading: 'Space Grotesk', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+/* Base Reset & Comic Halftone Background */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body.comic-bg {
+    font-family: var(--font-heading);
+    background-color: var(--paper-white);
+    color: var(--ink-black);
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    /* Subtle retro comic print screentone pattern */
+    background-image: radial-gradient(var(--ink-black) 10%, transparent 11%);
+    background-size: 16px 16px;
+    background-position: 0 0;
+}
+
+.container {
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ==========================================================================
+   HEADER SECTION
+   ========================================================================== */
+.comic-header {
+    background: var(--paper-white);
+    border-bottom: var(--border-thick);
+    padding: 24px 0 20px;
+    position: relative;
+    box-shadow: 0 4px 0 var(--ink-black);
+}
+
+.header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.issue-badge {
+    display: inline-block;
+    background: var(--ink-black);
+    color: var(--paper-white);
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 3px 8px;
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
+    border: 1px solid var(--ink-black);
+}
+
+.comic-title {
+    font-family: var(--font-comic);
+    font-size: 2.8rem;
+    letter-spacing: 2px;
+    line-height: 1;
+    text-transform: uppercase;
+    color: var(--ink-black);
+    text-shadow: 2px 2px 0px var(--halftone-gray);
+}
+
+.comic-title span {
+    background: var(--ink-black);
+    color: var(--paper-white);
+    padding: 0 8px;
+    display: inline-block;
+    transform: rotate(-1.5deg);
+    box-shadow: 3px 3px 0 var(--screen-gray);
+}
+
+.comic-subtitle {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-top: 6px;
+    color: var(--screen-gray);
+}
+
+.model-stamp {
+    border: var(--border-thick);
+    padding: 10px 16px;
+    background: var(--paper-white);
+    box-shadow: var(--shadow-soft);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    transform: rotate(1deg);
+}
+
+.stamp-top {
+    font-family: var(--font-comic);
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+}
+
+.stamp-bot {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--screen-gray);
+}
+
+/* ==========================================================================
+   COMIC CHAPTER TABS
+   ========================================================================== */
+.comic-tabs {
+    display: flex;
+    gap: 12px;
+    margin: 28px auto 20px;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    background: var(--paper-white);
+    color: var(--ink-black);
+    border: var(--border-thick);
+    box-shadow: var(--shadow-soft);
+    padding: 12px 22px;
+    cursor: pointer;
+    font-family: var(--font-comic);
+    font-size: 1.25rem;
+    letter-spacing: 1.5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease;
+    outline: none;
+}
+
+.tab-num {
+    background: var(--ink-black);
+    color: var(--paper-white);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 800;
+    padding: 2px 6px;
+}
+
+.tab-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-hard);
+}
+
+.tab-btn.active {
+    background: var(--ink-black);
+    color: var(--paper-white);
+    box-shadow: var(--shadow-hard);
+    transform: translate(-1px, -1px);
+}
+
+.tab-btn.active .tab-num {
+    background: var(--paper-white);
+    color: var(--ink-black);
+}
+
+/* Tab Content Visibility */
+.tab-content {
+    display: none;
+    margin-bottom: 50px;
+    animation: comicPanelFade 0.2s ease-in-out;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes comicPanelFade {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+   COMIC PANELS & CARDS
+   ========================================================================== */
+.comic-panel {
+    background: var(--paper-white);
+    border: var(--border-thick);
+    box-shadow: var(--shadow-huge);
+    padding: 24px;
+    position: relative;
+    margin-bottom: 24px;
+}
+
+.panel-header-strip {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: var(--border-thick);
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+}
+
+.panel-tag {
+    background: var(--ink-black);
+    color: var(--paper-white);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 4px 8px;
+    letter-spacing: 1px;
+}
+
+.panel-title {
+    font-family: var(--font-comic);
+    font-size: 1.6rem;
+    letter-spacing: 1.5px;
+    line-height: 1;
+}
+
+.comic-desc {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+    color: #222;
+}
+
+/* 2-Column Grid for Single Predictor */
+.comic-panel-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+@media (max-width: 900px) {
+    .comic-panel-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Presets Strip */
+.presets-container {
+    background: var(--light-gray);
+    border: var(--border-medium);
+    padding: 12px;
+    margin-bottom: 20px;
+}
+
+.presets-label {
+    display: block;
+    font-family: var(--font-comic);
+    font-size: 1rem;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.presets-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.preset-btn {
+    background: var(--paper-white);
+    border: 2px solid var(--ink-black);
+    padding: 6px 12px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 var(--ink-black);
+    transition: all 0.1s ease;
+}
+
+.preset-btn:hover {
+    background: var(--ink-black);
+    color: var(--paper-white);
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0 var(--ink-black);
+}
+
+/* ==========================================================================
+   INPUTS & FORMS
+   ========================================================================== */
+.comic-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.input-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+@media (max-width: 600px) {
+    .input-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    display: flex;
+    flex-direction: column;
+    font-weight: 700;
+}
+
+.lbl-main {
+    font-family: var(--font-comic);
+    font-size: 1.15rem;
+    letter-spacing: 1px;
+}
+
+.lbl-sub {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--screen-gray);
+    font-weight: 600;
+}
+
+input[type="number"],
+input[type="text"],
+select {
+    width: 100%;
+    padding: 10px 12px;
+    background: var(--paper-white);
+    border: var(--border-medium);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--ink-black);
+    box-shadow: 3px 3px 0px var(--halftone-gray);
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input[type="number"]:focus,
+input[type="text"]:focus,
+select:focus {
+    border: 3px solid var(--ink-black);
+    box-shadow: 3px 3px 0px var(--ink-black);
+    background: #fafafa;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+/* ==========================================================================
+   COMIC BUTTONS
+   ========================================================================== */
+.comic-btn {
+    border: var(--border-thick);
+    padding: 12px 24px;
+    font-family: var(--font-comic);
+    font-size: 1.3rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: var(--shadow-hard);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    user-select: none;
+}
+
+.comic-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-huge);
+}
+
+.comic-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px var(--ink-black);
+}
+
+.comic-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: 2px 2px 0px var(--ink-black) !important;
+}
+
+.primary-btn {
+    background: var(--ink-black);
+    color: var(--paper-white);
+}
+
+.secondary-btn {
+    background: var(--paper-white);
+    color: var(--ink-black);
+}
+
+.action-heavy-btn {
+    width: 100%;
+    padding: 16px 28px;
+    font-size: 1.5rem;
+    background: var(--ink-black);
+    color: var(--paper-white);
+}
+
+.mini-btn {
+    padding: 4px 10px;
+    font-size: 0.9rem;
+    background: var(--ink-black);
+    color: var(--paper-white);
+}
+
+/* ==========================================================================
+   SPEECH BUBBLE & VALUATION RESULTS (COMIC STYLE)
+   ========================================================================== */
+.speech-bubble-wrapper {
+    position: relative;
+    margin-bottom: 24px;
+}
+
+.speech-bubble {
+    background: var(--paper-white);
+    border: var(--border-thick);
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: var(--shadow-hard);
+    text-align: center;
+    position: relative;
+}
+
+.bubble-tail {
+    position: absolute;
+    bottom: -18px;
+    left: 45px;
+    width: 0;
+    height: 0;
+    border-left: 18px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 18px solid var(--ink-black);
+}
+
+.bubble-tail::after {
+    content: '';
+    position: absolute;
+    bottom: 3px;
+    left: -15px;
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 15px solid var(--paper-white);
+}
+
+.bubble-caption {
+    font-family: var(--font-mono);
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    color: var(--screen-gray);
+    margin-bottom: 6px;
+}
+
+.price-display {
+    font-family: var(--font-comic);
+    font-size: 3.4rem;
+    letter-spacing: 2px;
+    line-height: 1.1;
+    color: var(--ink-black);
+    text-shadow: 2px 2px 0px var(--halftone-gray);
+}
+
+.bubble-subtext {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-top: 8px;
+    color: #333;
+}
+
+/* Stats Box & Derived Block Ratios */
+.stats-box {
+    background: var(--light-gray);
+    border: var(--border-medium);
+    padding: 16px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-soft);
+}
+
+.stat-box-title {
+    font-family: var(--font-comic);
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    border-bottom: 2px solid var(--ink-black);
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+}
+
+.stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.stat-item {
+    background: var(--paper-white);
+    border: 1px solid var(--ink-black);
+    padding: 8px 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-val {
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+.stat-lbl {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--screen-gray);
+}
+
+/* Location Note Card */
+.note-card {
+    border: 2px dashed var(--ink-black);
+    padding: 16px;
+    background: var(--paper-white);
+    position: relative;
+}
+
+.card-corner-tag {
+    position: absolute;
+    top: -10px;
+    right: 14px;
+    background: var(--ink-black);
+    color: var(--paper-white);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 6px;
+}
+
+.coords-line {
+    font-family: var(--font-mono);
+    font-weight: 800;
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+}
+
+.coords-desc {
+    font-size: 0.8rem;
+    color: var(--screen-gray);
+}
+
+/* ==========================================================================
+   BATCH INFERENCE & DRAG AND DROP
+   ========================================================================== */
+.batch-intro-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.batch-intro-row .comic-desc {
+    flex: 1;
+    min-width: 280px;
+    margin-bottom: 0;
+}
+
+.batch-actions-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.comic-dropzone {
+    border: 3px dashed var(--ink-black);
+    background: var(--light-gray);
+    padding: 40px 20px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.comic-dropzone:hover,
+.comic-dropzone.dragover {
+    background: #ececec;
+    border-color: var(--ink-black);
+}
+
+.dropzone-file-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.dropzone-icon {
+    font-size: 2.8rem;
+    line-height: 1;
+    margin-bottom: 8px;
+}
+
+.dropzone-title {
+    font-family: var(--font-comic);
+    font-size: 1.6rem;
+    letter-spacing: 1.5px;
+}
+
+.dropzone-subtitle {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--screen-gray);
+    margin: 6px 0 12px;
+}
+
+.dropzone-badge {
+    display: inline-block;
+    background: var(--ink-black);
+    color: var(--paper-white);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 8px;
+}
+
+.selected-file-info {
+    margin-top: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--paper-white);
+    border: var(--border-medium);
+    padding: 6px 14px;
+    box-shadow: 2px 2px 0 var(--ink-black);
+}
+
+.selected-file-info .file-name {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.batch-run-row {
+    margin-bottom: 24px;
+}
+
+.batch-loading-state {
+    text-align: center;
+    padding: 24px 0;
+}
+
+.screentone-bar-loader {
+    width: 100%;
+    height: 14px;
+    border: 2px solid var(--ink-black);
+    background: repeating-linear-gradient(
+        -45deg,
+        var(--ink-black),
+        var(--ink-black) 10px,
+        var(--paper-white) 10px,
+        var(--paper-white) 20px
+    );
+    background-size: 28px 28px;
+    animation: comicStripBar 0.8s linear infinite;
+    margin-bottom: 10px;
+}
+
+@keyframes comicStripBar {
+    0% { background-position: 0 0; }
+    100% { background-position: 28px 0; }
+}
+
+.loading-label {
+    font-family: var(--font-comic);
+    font-size: 1.1rem;
+    letter-spacing: 1.5px;
+}
+
+.comic-banner-divider {
+    border-top: var(--border-thick);
+    border-bottom: var(--border-thick);
+    padding: 8px 12px;
+    background: var(--ink-black);
+    color: var(--paper-white);
+    font-family: var(--font-comic);
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+    margin: 28px 0 20px;
+    text-align: center;
+}
+
+/* Batch Summary KPI Grid */
+.batch-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.kpi-card {
+    border: var(--border-thick);
+    background: var(--paper-white);
+    padding: 18px 16px;
+    box-shadow: var(--shadow-soft);
+    display: flex;
+    flex-direction: column;
+}
+
+.kpi-num {
+    font-family: var(--font-comic);
+    font-size: 2.2rem;
+    line-height: 1;
+    margin-bottom: 4px;
+}
+
+.kpi-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--screen-gray);
+    letter-spacing: 1px;
+}
+
+.table-action-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.table-count-label {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.8rem;
+    background: var(--light-gray);
+    border: 1px solid var(--ink-black);
+    padding: 4px 8px;
+}
+
+.download-btn {
+    font-size: 1rem;
+    padding: 8px 16px;
+}
+
+/* ==========================================================================
+   COMIC DATA TABLES
+   ========================================================================== */
+.comic-table-container {
+    width: 100%;
+    overflow-x: auto;
+    border: var(--border-thick);
+    box-shadow: var(--shadow-soft);
+    background: var(--paper-white);
+    margin-bottom: 20px;
+}
+
+.comic-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    text-align: left;
+}
+
+.comic-table th {
+    background: var(--ink-black);
+    color: var(--paper-white);
+    padding: 10px 14px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    border-right: 1px solid var(--paper-white);
+    white-space: nowrap;
+}
+
+.comic-table td {
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--halftone-gray);
+    border-right: 1px solid var(--halftone-gray);
+    white-space: nowrap;
+}
+
+.comic-table tbody tr:nth-child(even) {
+    background-color: var(--light-gray);
+}
+
+.comic-table tbody tr:hover {
+    background-color: #ededed;
+}
+
+/* ==========================================================================
+   DASHBOARD & TRAINING INTEL
+   ========================================================================== */
+.dashboard-filter-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    border: var(--border-medium);
+    padding: 16px;
+    background: var(--light-gray);
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-soft);
+}
+
+.filter-label {
+    font-family: var(--font-comic);
+    font-size: 1.05rem;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.comic-chip-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.comic-chip {
+    background: var(--paper-white);
+    color: var(--ink-black);
+    border: 2px solid var(--ink-black);
+    padding: 6px 12px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 var(--ink-black);
+    transition: all 0.1s ease;
+}
+
+.comic-chip:hover {
+    background: #000;
+    color: #fff;
+}
+
+.comic-chip.active {
+    background: var(--ink-black);
+    color: var(--paper-white);
+    box-shadow: 3px 3px 0 var(--screen-gray);
+}
+
+.price-filter-col {
+    min-width: 260px;
+}
+
+.slider-badge {
+    background: var(--ink-black);
+    color: var(--paper-white);
+    font-family: var(--font-mono);
+    padding: 2px 6px;
+    font-size: 0.75rem;
+}
+
+.comic-slider {
+    width: 100%;
+    accent-color: var(--ink-black);
+    cursor: pointer;
+}
+
+/* Dashboard Global Stat Panels */
+.dash-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.kpi-panel {
+    border: var(--border-thick);
+    background: var(--paper-white);
+    padding: 18px;
+    box-shadow: var(--shadow-soft);
+    position: relative;
+}
+
+.kpi-tag {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 800;
+    background: var(--ink-black);
+    color: var(--paper-white);
+    display: inline-block;
+    padding: 2px 6px;
+    margin-bottom: 8px;
+}
+
+.kpi-value {
+    font-family: var(--font-comic);
+    font-size: 2.8rem;
+    line-height: 1;
+    color: var(--ink-black);
+    margin-bottom: 4px;
+}
+
+.kpi-name {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--screen-gray);
+    letter-spacing: 0.5px;
+}
+
+/* Charts Grid */
+.comic-chart-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+@media (max-width: 850px) {
+    .comic-chart-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.chart-panel {
+    border: var(--border-thick);
+    background: var(--paper-white);
+    padding: 20px;
+    box-shadow: var(--shadow-hard);
+}
+
+.chart-panel.full-width-chart {
+    grid-column: 1 / -1;
+}
+
+.chart-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 2px solid var(--ink-black);
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+}
+
+.chart-tag {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 800;
+    background: var(--ink-black);
+    color: var(--paper-white);
+    padding: 2px 6px;
+}
+
+.chart-title {
+    font-family: var(--font-comic);
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+}
+
+.chart-canvas-wrap {
+    position: relative;
+    height: 300px;
+    width: 100%;
+}
+
+.chart-panel.full-width-chart .chart-canvas-wrap {
+    height: 320px;
+}
+
+.chart-footer-note {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--screen-gray);
+    margin-top: 12px;
+    border-top: 1px dashed var(--ink-black);
+    padding-top: 8px;
+}
+
+.sub-strip {
+    margin-top: 24px;
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.comic-footer {
+    margin-top: auto;
+    background: var(--paper-white);
+    border-top: var(--border-thick);
+    padding: 16px 0;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.f-badge {
+    background: var(--ink-black);
+    color: var(--paper-white);
+    padding: 2px 6px;
+    margin-right: 8px;
+}

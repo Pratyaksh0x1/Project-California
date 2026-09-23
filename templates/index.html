@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CALIFORNIA HOUSING PREDICTOR</title>
+    <!-- Google Fonts: Comic & Clean Monospace -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=JetBrains+Mono:wght@400;600;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <!-- Chart.js for Monochrome Data Visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body class="comic-bg">
+
+    <!-- Comic Header Banner -->
+    <header class="comic-header">
+        <div class="header-inner container">
+            <div class="brand-left">
+                <div class="issue-badge">PRATYAKSH'S</div>
+                <h1 class="comic-title">CALIFORNIA HOUSING <span>PREDICTOR</span></h1>
+                <p class="comic-subtitle">A MACHINE LEARNING VALUATION LAB</p>
+            </div>
+            <div class="brand-right">
+                <div class="model-stamp">
+                    <span class="stamp-top">ENGINE: RANDOM FOREST</span>
+                    <span class="stamp-bot">R&sup2; = 0.83 &bull; MAE = $30.9K</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs / Comic Chapters -->
+    <nav class="comic-tabs container">
+        <button class="tab-btn active" data-tab="single-section" id="btn-tab-single">
+            <span class="tab-num">01</span>
+            <span class="tab-label">SINGLE PREDICTOR</span>
+        </button>
+        <button class="tab-btn" data-tab="batch-section" id="btn-tab-batch">
+            <span class="tab-num">02</span>
+            <span class="tab-label">BATCH INFERENCE</span>
+        </button>
+        <button class="tab-btn" data-tab="dashboard-section" id="btn-tab-dashboard">
+            <span class="tab-num">03</span>
+            <span class="tab-label">TRAINING INTEL</span>
+        </button>
+    </nav>
+
+    <!-- Main Content Panels -->
+    <main class="container">
+
+        <!-- ================= SECTION 1: SINGLE PREDICTOR ================= -->
+        <section id="single-section" class="tab-content active">
+            <div class="comic-panel-grid">
+                
+                <!-- Left Panel: Input Controls -->
+                <div class="comic-panel form-panel">
+                    <div class="panel-header-strip">
+                        <span class="panel-tag">PANEL 1A</span>
+                        <h2 class="panel-title">PROPERTY SPECIFICATIONS</h2>
+                    </div>
+
+                    <!-- Presets Strip -->
+                    <div class="presets-container">
+                        <span class="presets-label">QUICK PRESETS:</span>
+                        <div class="presets-pills">
+                            <button type="button" class="preset-btn" data-preset="bay">BAY AREA (BERKELEY)</button>
+                            <button type="button" class="preset-btn" data-preset="la">LA COAST (SANTA MONICA)</button>
+                            <button type="button" class="preset-btn" data-preset="inland">CENTRAL VALLEY (FRESNO)</button>
+                            <button type="button" class="preset-btn" data-preset="sd">SAN DIEGO SUBURB</button>
+                        </div>
+                    </div>
+
+                    <form id="single-predict-form" class="comic-form">
+                        <div class="input-grid">
+                            
+                            <div class="form-group">
+                                <label for="longitude">
+                                    <span class="lbl-main">LONGITUDE</span>
+                                    <span class="lbl-sub">West Coords (&deg;)</span>
+                                </label>
+                                <input type="number" step="0.01" id="longitude" name="longitude" value="-122.23" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="latitude">
+                                    <span class="lbl-main">LATITUDE</span>
+                                    <span class="lbl-sub">North Coords (&deg;)</span>
+                                </label>
+                                <input type="number" step="0.01" id="latitude" name="latitude" value="37.88" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="housing_median_age">
+                                    <span class="lbl-main">MEDIAN AGE</span>
+                                    <span class="lbl-sub">Years (1 &ndash; 52)</span>
+                                </label>
+                                <input type="number" step="1" id="housing_median_age" name="housing_median_age" value="41" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="median_income">
+                                    <span class="lbl-main">MEDIAN INCOME</span>
+                                    <span class="lbl-sub">Tens of thousands ($)</span>
+                                </label>
+                                <input type="number" step="0.0001" id="median_income" name="median_income" value="8.3252" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="total_rooms">
+                                    <span class="lbl-main">TOTAL ROOMS</span>
+                                    <span class="lbl-sub">Block total</span>
+                                </label>
+                                <input type="number" step="1" id="total_rooms" name="total_rooms" value="880" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="total_bedrooms">
+                                    <span class="lbl-main">TOTAL BEDROOMS</span>
+                                    <span class="lbl-sub">Block total</span>
+                                </label>
+                                <input type="number" step="1" id="total_bedrooms" name="total_bedrooms" value="129" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="population">
+                                    <span class="lbl-main">POPULATION</span>
+                                    <span class="lbl-sub">Residents in block</span>
+                                </label>
+                                <input type="number" step="1" id="population" name="population" value="322" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="households">
+                                    <span class="lbl-main">HOUSEHOLDS</span>
+                                    <span class="lbl-sub">Family units</span>
+                                </label>
+                                <input type="number" step="1" id="households" name="households" value="126" required>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group full-width ocean-group">
+                            <label for="ocean_proximity">
+                                <span class="lbl-main">OCEAN PROXIMITY</span>
+                                <span class="lbl-sub">Geographic proximity to the Pacific Ocean</span>
+                            </label>
+                            <select id="ocean_proximity" name="ocean_proximity" required>
+                                <option value="NEAR BAY" selected>NEAR BAY (San Francisco Bay)</option>
+                                <option value="<1H OCEAN">&lt;1H OCEAN (Within 1 hr of coast)</option>
+                                <option value="INLAND">INLAND (Central Valley / Desert)</option>
+                                <option value="NEAR OCEAN">NEAR OCEAN (Coastal Shoreline)</option>
+                                <option value="ISLAND">ISLAND (Channel Islands)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="comic-btn primary-btn" id="btn-predict">
+                                <span class="btn-text">CALCULATE VALUE</span>
+                                <span class="btn-icon">&rarr;</span>
+                            </button>
+                            <button type="button" class="comic-btn secondary-btn" id="btn-reset-single">
+                                RESET
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Right Panel: Result & Story Breakdown -->
+                <div class="comic-panel result-panel">
+                    <div class="panel-header-strip">
+                        <span class="panel-tag">PANEL 1B</span>
+                        <h2 class="panel-title">VALUATION VERDICT</h2>
+                    </div>
+
+                    <div class="speech-bubble-wrapper">
+                        <!-- Comic Thought/Speech Bubble -->
+                        <div class="speech-bubble" id="speech-bubble">
+                            <div class="bubble-caption">MODEL ESTIMATE:</div>
+                            <div class="price-display" id="single-price-output">$452,600</div>
+                            <div class="bubble-subtext" id="single-verdict-text">
+                                High-value coastal zone with strong median income baseline.
+                            </div>
+                        </div>
+                        <div class="bubble-tail"></div>
+                    </div>
+
+                    <!-- Metrics / Block Ratios -->
+                    <div class="stats-box">
+                        <div class="stat-box-title">DERIVED BLOCK RATIOS</div>
+                        <div class="stat-grid">
+                            <div class="stat-item">
+                                <span class="stat-val" id="ratio-rooms">6.98</span>
+                                <span class="stat-lbl">Rooms / Household</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-val" id="ratio-bedrooms">0.147</span>
+                                <span class="stat-lbl">Bedrooms / Room</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-val" id="ratio-population">2.56</span>
+                                <span class="stat-lbl">People / Household</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-val" id="display-income-usd">$83,252</span>
+                                <span class="stat-lbl">Est. Annual Income</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Location Radar Note -->
+                    <div class="comic-card note-card">
+                        <div class="card-corner-tag">GPS LOCK</div>
+                        <p class="coords-line" id="coords-display">LAT 37.88&deg; N &bull; LON -122.23&deg; W</p>
+                        <p class="coords-desc" id="coords-desc">San Francisco Bay Area block group. Evaluated against 16,512 historical training distributions.</p>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ================= SECTION 2: BATCH PREDICTOR ================= -->
+        <section id="batch-section" class="tab-content">
+            <div class="comic-panel">
+                <div class="panel-header-strip">
+                    <span class="panel-tag">PANEL 2A</span>
+                    <h2 class="panel-title">MASS INFERENCE / BATCH INTAKE</h2>
+                </div>
+
+                <div class="batch-intro-row">
+                    <p class="comic-desc">
+                        Feed a batch of California properties via CSV. The Random Forest pipeline will evaluate every row, compute predicted valuations, and benchmark residuals if actual prices are present.
+                    </p>
+                    <div class="batch-actions-strip">
+                        <a href="/api/sample-csv" class="comic-btn secondary-btn" download>
+                            &darr; DOWNLOAD SAMPLE CSV TEMPLATE
+                        </a>
+                        <button type="button" class="comic-btn primary-btn" id="btn-preloaded-batch">
+                            &star; TEST WITH PRELOADED TEST SET (4,130 ROWS)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Comic Drag & Drop Area -->
+                <div class="comic-dropzone" id="comic-dropzone">
+                    <input type="file" id="batch-file-input" accept=".csv" class="dropzone-file-input">
+                    <div class="dropzone-content">
+                        <div class="dropzone-icon">&#9638;</div>
+                        <div class="dropzone-title">DRAG &amp; DROP CSV FILE HERE</div>
+                        <div class="dropzone-subtitle">or click to browse from system disk (max 32MB)</div>
+                        <div class="dropzone-badge">REQUIRED: 9 CALIFORNIA FEATURES</div>
+                    </div>
+                    <div class="selected-file-info" id="selected-file-info" style="display: none;">
+                        <span class="file-name" id="selected-file-name">filename.csv</span>
+                        <button type="button" class="comic-btn mini-btn" id="btn-clear-file">&times; CLEAR</button>
+                    </div>
+                </div>
+
+                <!-- Process Batch CTA -->
+                <div class="batch-run-row">
+                    <button type="button" class="comic-btn action-heavy-btn" id="btn-run-batch" disabled>
+                        <span>RUN BATCH VALUATION INFERENCE</span>
+                        <span class="bolt">&raquo;</span>
+                    </button>
+                </div>
+
+                <!-- Batch Loading Indicator -->
+                <div class="batch-loading-state" id="batch-loading-state" style="display: none;">
+                    <div class="screentone-bar-loader"></div>
+                    <div class="loading-label">COMPUTING RANDOM FOREST ENSEMBLE PREDICTIONS...</div>
+                </div>
+
+                <!-- Batch Results Container -->
+                <div id="batch-results-container" class="batch-results-wrapper" style="display: none;">
+                    
+                    <div class="comic-banner-divider">
+                        <span>BATCH VALUATION COMPLETE</span>
+                    </div>
+
+                    <!-- Batch Summary Cards -->
+                    <div class="batch-kpi-grid" id="batch-kpi-grid">
+                        <div class="kpi-card">
+                            <span class="kpi-num" id="batch-kpi-rows">0</span>
+                            <span class="kpi-label">TOTAL RECORDS</span>
+                        </div>
+                        <div class="kpi-card">
+                            <span class="kpi-num" id="batch-kpi-mean">$0</span>
+                            <span class="kpi-label">MEAN PREDICTED VALUE</span>
+                        </div>
+                        <div class="kpi-card">
+                            <span class="kpi-num" id="batch-kpi-range">$0 - $0</span>
+                            <span class="kpi-label">VALUATION RANGE</span>
+                        </div>
+                        <div class="kpi-card" id="batch-kpi-eval-card" style="display: none;">
+                            <span class="kpi-num" id="batch-kpi-eval-score">MAE $0</span>
+                            <span class="kpi-label" id="batch-kpi-eval-label">GROUND TRUTH R&sup2;</span>
+                        </div>
+                    </div>
+
+                    <!-- Batch Export Actions -->
+                    <div class="table-action-bar">
+                        <span class="table-count-label" id="batch-preview-count">SHOWING FIRST 50 PREDICTIONS</span>
+                        <a id="btn-download-batch-csv" href="#" class="comic-btn primary-btn download-btn">
+                            &darr; DOWNLOAD FULL ENRICHED CSV
+                        </a>
+                    </div>
+
+                    <!-- Batch Preview Table -->
+                    <div class="comic-table-container">
+                        <table class="comic-table" id="batch-table">
+                            <thead>
+                                <tr id="batch-table-head">
+                                    <th>#</th>
+                                    <th>LATITUDE</th>
+                                    <th>LONGITUDE</th>
+                                    <th>MEDIAN AGE</th>
+                                    <th>INCOME</th>
+                                    <th>PROXIMITY</th>
+                                    <th>PREDICTED VALUE</th>
+                                    <th>ACTUAL VALUE</th>
+                                    <th>ABS ERROR</th>
+                                </tr>
+                            </thead>
+                            <tbody id="batch-table-body">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ================= SECTION 3: TRAINING INTEL / DASHBOARD ================= -->
+        <section id="dashboard-section" class="tab-content">
+            <div class="comic-panel">
+                <div class="panel-header-strip">
+                    <span class="panel-tag">PANEL 3A</span>
+                    <h2 class="panel-title">TRAINING GROUND TRUTH &amp; EVALUATION DASHBOARD</h2>
+                </div>
+
+                <p class="comic-desc">
+                    Comprehensive performance intel on the 20% stratified test set (4,130 records) against the pre-trained Random Forest Regressor.
+                </p>
+
+                <!-- Filter Controls Strip -->
+                <div class="dashboard-filter-bar">
+                    <div class="filter-col">
+                        <label class="filter-label">OCEAN PROXIMITY FILTER:</label>
+                        <div class="comic-chip-group" id="chip-group-ocean">
+                            <button type="button" class="comic-chip active" data-val="ALL">ALL REGIONS</button>
+                            <button type="button" class="comic-chip" data-val="<1H OCEAN">&lt;1H OCEAN</button>
+                            <button type="button" class="comic-chip" data-val="INLAND">INLAND</button>
+                            <button type="button" class="comic-chip" data-val="NEAR OCEAN">NEAR OCEAN</button>
+                            <button type="button" class="comic-chip" data-val="NEAR BAY">NEAR BAY</button>
+                            <button type="button" class="comic-chip" data-val="ISLAND">ISLAND</button>
+                        </div>
+                    </div>
+
+                    <div class="filter-col price-filter-col">
+                        <label class="filter-label" for="dash-price-slider">
+                            PRICE CAP: <span id="dash-price-val" class="slider-badge">ALL ($500K+)</span>
+                        </label>
+                        <input type="range" id="dash-price-slider" min="14999" max="500001" step="5000" value="500001" class="comic-slider">
+                    </div>
+                </div>
+
+                <!-- Global Metric Stat Cards -->
+                <div class="dash-kpi-grid">
+                    <div class="kpi-panel">
+                        <div class="kpi-tag">METRIC 01</div>
+                        <div class="kpi-value" id="dash-mae">$30,900</div>
+                        <div class="kpi-name">MEAN ABSOLUTE ERROR (MAE)</div>
+                    </div>
+                    <div class="kpi-panel">
+                        <div class="kpi-tag">METRIC 02</div>
+                        <div class="kpi-value" id="dash-rmse">$47,200</div>
+                        <div class="kpi-name">ROOT MEAN SQ ERROR (RMSE)</div>
+                    </div>
+                    <div class="kpi-panel">
+                        <div class="kpi-tag">METRIC 03</div>
+                        <div class="kpi-value" id="dash-r2">0.834</div>
+                        <div class="kpi-name">COEFFICIENT OF DETERMINATION (R&sup2;)</div>
+                    </div>
+                    <div class="kpi-panel">
+                        <div class="kpi-tag">TEST SAMPLE</div>
+                        <div class="kpi-value" id="dash-count">4,130</div>
+                        <div class="kpi-name">EVALUATION DATA POINTS</div>
+                    </div>
+                </div>
+
+                <!-- Comic Charts Grid -->
+                <div class="comic-chart-grid">
+                    
+                    <!-- Chart 1: Actual vs Predicted -->
+                    <div class="chart-panel">
+                        <div class="chart-header">
+                            <span class="chart-tag">FIGURE 01</span>
+                            <h3 class="chart-title">ACTUAL VS. PREDICTED VALUATIONS</h3>
+                        </div>
+                        <div class="chart-canvas-wrap">
+                            <canvas id="chart-scatter"></canvas>
+                        </div>
+                        <div class="chart-footer-note">
+                            Dotted line represents 1:1 perfect parity. Cluster points demonstrate tight calibration.
+                        </div>
+                    </div>
+
+                    <!-- Chart 2: Error Distribution -->
+                    <div class="chart-panel">
+                        <div class="chart-header">
+                            <span class="chart-tag">FIGURE 02</span>
+                            <h3 class="chart-title">RESIDUAL / ERROR DISTRIBUTION</h3>
+                        </div>
+                        <div class="chart-canvas-wrap">
+                            <canvas id="chart-error-hist"></canvas>
+                        </div>
+                        <div class="chart-footer-note">
+                            Bell curve centered near $0 indicates low model bias across test blocks.
+                        </div>
+                    </div>
+
+                    <!-- Chart 3: Ocean Proximity Comparison -->
+                    <div class="chart-panel full-width-chart">
+                        <div class="chart-header">
+                            <span class="chart-tag">FIGURE 03</span>
+                            <h3 class="chart-title">VALUATIONS BY GEOGRAPHIC REGION (OCEAN PROXIMITY)</h3>
+                        </div>
+                        <div class="chart-canvas-wrap">
+                            <canvas id="chart-ocean-bar"></canvas>
+                        </div>
+                        <div class="chart-footer-note">
+                            Comparing Actual Mean Value vs Model Predicted Mean Value across regional categories.
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Worst Predictions Table -->
+                <div class="worst-pred-section">
+                    <div class="panel-header-strip sub-strip">
+                        <span class="panel-tag">ANOMALY REPORT</span>
+                        <h3 class="panel-title">TOP RESIDUAL OUTLIERS (WORST PREDICTIONS)</h3>
+                    </div>
+                    <div class="comic-table-container">
+                        <table class="comic-table" id="worst-table">
+                            <thead>
+                                <tr>
+                                    <th>LATITUDE</th>
+                                    <th>LONGITUDE</th>
+                                    <th>MEDIAN INCOME</th>
+                                    <th>REGION</th>
+                                    <th>ACTUAL VALUE</th>
+                                    <th>PREDICTED VALUE</th>
+                                    <th>RESIDUAL ERROR</th>
+                                    <th>ERROR %</th>
+                                </tr>
+                            </thead>
+                            <tbody id="worst-table-body">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Comic Footer -->
+    <footer class="comic-footer">
+        <div class="container footer-inner">
+            <div class="footer-left">
+                <span class="f-badge">STATUS: OPERATIONAL</span>
+                <span>CALIFORNIA HOUSING LAB &bull; FLASK BACKEND &bull; MONOCHROME COMIC THEME</span>
+            </div>
+            <div class="footer-right">
+                <span>SCIKIT-LEARN &bull; PANDAS &bull; JOB-LIB &bull; CHART.JS</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
